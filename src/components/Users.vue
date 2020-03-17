@@ -1,6 +1,10 @@
 <template>
     <div class="container">
     <h3>코로나19 공적 마스크😷 재고현황</h3>
+    <p>
+      주소를 입력하세요(동까지만):
+      <input v-model="addrsearch" placeholder="경기도 성남시 분당구 운중동">
+    </p>
     <table class="table">
       <thead>
         <tr>
@@ -30,6 +34,7 @@ import axios from 'axios';
 
 //5-2. data() :stores를 null로 설정해둔 다음, api 응답으로부터 받은 데이터를 저장하기위한 변수
 // created: api를 호출하기위한(API call) axios의 get 메소드 
+//https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=서울특별시%20중구
 export default {
     name: 'Users',
     data(){
@@ -38,7 +43,8 @@ export default {
         };
     },
     created: function(){
-        const API_URL = 'https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json';
+        const addrsearch = '경기도%20성남시%20분당구%20운중동';
+        const API_URL = `https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=${addrsearch}`;
         axios
         .get(`${API_URL}`)
         .then(response => {
