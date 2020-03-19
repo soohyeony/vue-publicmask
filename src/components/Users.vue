@@ -3,7 +3,8 @@
     <h3>코로나19 공적 마스크😷 재고현황</h3>
     <p>
       주소를 입력하세요(동까지만):
-      <input v-model="addrsearch" placeholder="경기도 성남시 분당구 운중동">
+      <input v-model.lazy="addrInput" placeholder="경기도 성남시 분당구 운중동">
+      <button type="button" class="btn" @click="pharmSearch">검색</button>
     </p>
     <table class="table">
       <thead>
@@ -40,17 +41,25 @@ export default {
     data(){
         return {
             stores: null,
+            addrInput: '서울특별시 중구',
+            addrReplace: ''
         };
     },
-    created: function(){
-        const addrsearch = '경기도%20성남시%20분당구%20운중동';
-        const API_URL = `https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=${addrsearch}`;
+    methods:{
+      // blankReplace: function(){
+      //   this.addrReplace = this.addrInput.replace(/(\s*)/g, "%20");
+      // },
+      pharmSearch: function(){
+        //공백을 %20으로 replace
+        this.addrReplace = this.addrInput.replace(/(\s*)/g, "%20");
+        const API_URL = `https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=${this.addrInput}`;
         axios
         .get(`${API_URL}`)
         .then(response => {
-            console.log(response.data.stores);
+            //console.log(response.data.stores);
             this.stores = response.data.stores;
         })
+      }
     }
 }
 </script>
