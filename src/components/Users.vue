@@ -1,11 +1,12 @@
 <template>
     <div class="container">
-    <h3>코로나19 공적 마스크😷 재고현황</h3>
+    <h4>코로나19 공적 마스크😷 재고현황</h4>
     <p>
-      주소를 입력하세요(동까지만):
-      <input v-model.lazy="addrInput" placeholder="경기도 성남시 분당구 운중동">
-      <button type="button" class="btn" @click="pharmSearch">검색</button>
+      <b>주소를 입력하세요(동까지만):</b>
     </p>
+      <input type="text" v-model.lazy="addrInput" placeholder="경기도 성남시 분당구 운중동">
+      <button type="button" class="btn" @click="pharmSearch">검색</button>
+
     <table class="table">
       <thead>
         <tr>
@@ -19,7 +20,7 @@
         <tr v-for="store in stores" v-bind:key="store.id"> 
           <th scope="row">{{store.name}}</th>
           <td>{{store.addr}}</td>
-          <td>{{store.remain_stat}}</td>
+          <td id="remainStat">{{store.remain_stat}}</td>
           <td>{{store.stock_at}}</td>
         </tr>
       </tbody>
@@ -41,7 +42,7 @@ export default {
     data(){
         return {
             stores: null,
-            addrInput: '서울특별시 중구',
+            addrInput: '',
             addrReplace: ''
         };
     },
@@ -60,12 +61,54 @@ export default {
             this.stores = response.data.stores;
         })
       }
-    }
+    },
+    // computed:{
+    //   statColor: function(){
+    //     var statEmoji = {
+    //       "plenty":"🟢100개 이상",
+    //       "some":"🟡30개 이상 100개 미만",
+    //       "few":"🔴2개 이상 30개 미만",
+    //       "empty": "⚪1개 이하",
+    //       "break":"❌판매중지"
+    //     };
+    //     var statTxt = document.getElementById("remainStat").innerHTML;
+    //     for (var i=0; i < statEmoji.length; i++){
+    //       if(statTxt == statEmoji[i])
+    //         return statTxt = statEmoji[statTxt];
+    //     }
+    //   }
+    // }
 }
 </script>
 
 <style>
-    h3 {
+    h4 {
+        width: 100%;
         margin-bottom: 5%;
+        background-color: black;
+        color: lightgray;
+        padding: 10px;
+        font-weight: bold;
+    }
+
+    .btn{
+      background-color: green;
+      margin: 10px;
+      color: white;
+      font-weight: bold;
+    }
+
+    input[type=text]{
+      border: none;
+      border-bottom: 2px solid black;
+      width: 80%;
+      padding: 10px 10px;
+      font-size: 20px;
+      transition: 0.5s;
+    }
+
+    input[type=text]:focus {
+      border-bottom: 2px solid green;
+      outline: none;
     }
 </style>
